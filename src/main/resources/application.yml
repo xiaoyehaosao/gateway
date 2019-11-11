@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - predicates:
+            - Path=/java/**
+          filters:
+            - StripPrefix=1
+          uri: "http://localhost:8090/helloWorld"
