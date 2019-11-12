@@ -1,9 +1,21 @@
+server:
+  port: 8098
 spring:
+  application:
+    name: service-gateway
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      joda-date-time-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+  profiles:
+    active: dev
+  resources:
+     static-locations: classpath:/resources/
   cloud:
     gateway:
-      routes:
-        - predicates:
-            - Path=/java/**
-          filters:
-            - StripPrefix=1
-          uri: "http://localhost:8090/helloWorld"
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+

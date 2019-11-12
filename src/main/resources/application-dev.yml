@@ -1,0 +1,16 @@
+spring:
+############# 新注册注册consul 配置################
+  cloud:
+    consul:
+      nodes:
+      host: 10.10.11.107
+      port: 8500
+      discovery:
+        register: true
+        hostname: ${spring.cloud.client.ip-address}
+        service-name: ${spring.application.name}
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        health-check-critical-timeout: 20s
+        tags: version=1.0.0,name=gateway
