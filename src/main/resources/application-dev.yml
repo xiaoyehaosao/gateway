@@ -3,12 +3,12 @@ spring:
   cloud:
     consul:
       enabled: true
-      host: localhost
+      host: 10.10.11.107
       port: 8500
       discovery:
         enabled: true
         register: true
-        hostname: 127.0.0.1
+        hostname: ${spring.cloud.client.ip-address}
         service-name: ${spring.application.name}
         healthCheckPath: /actuator/health
         healthCheckInterval: 15s

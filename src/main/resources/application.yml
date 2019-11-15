@@ -15,7 +15,12 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
+          enabled: false
           lower-case-service-id: true
+      routes:
+        - id: service_basecenter
+          uri: lb://xyhs-basecenter
+          predicates:
+          - Path= /message/{segment}
 
 
