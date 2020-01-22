@@ -15,4 +15,9 @@ public class FallbackController {
     public String fallback(){
         return "fallback nothing";
     }
+
+    @RequestMapping(value = "/tradeFallback")
+    public String tradeFallback(){
+        return "trade fallback nothing";
+    }
 }

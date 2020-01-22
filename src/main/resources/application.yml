@@ -1,5 +1,5 @@
 server:
-  port: 8099
+  port: 8090
 spring:
   application:
     name: xyhs-gateway
@@ -16,7 +16,7 @@ spring:
       discovery:
         locator:
           # 值为 true 会自动每个为每个consul的服务 添加一个路由，通过 {applicationName}/{url} 可以访问，false 则是取消这个自动生成的配置
-          enabled: true
+          enabled: false
           #consul上的的服务名称 统一以小写字母处理
           lower-case-service-id: true
           #路由
@@ -24,19 +24,33 @@ spring:
           #路由Id
         - id: service_basecenter
           #符合路由条件之后要跳转的真实路径,lb：consul的url，xyhs-basecenter 是consul上的服务名称
-          uri: http://10.10.11.70:8099/
+          uri: lb://xyhs-basecenter
           #断言，有很多种配置，这里用的是路径配置，其他的可以上官网了解
           predicates:
           - Path= /basecenter/**/**
-          #过滤-StripPrefix=1 的含义是 访问真是路径时 去掉路径种的第一个 这里会去掉basecenter，真是路径为 lb:/xyhs-basecenter/message
+          #过滤-StripPrefix=1 的含义是 访问真是路径时 去掉路径种的第一个 这里会去掉basecenter，真是路径为 lb:/xyhs-basecenter/**/**
           filters:
           #- StripPrefix=1
           #- AddRequestParameter=testMsg, 10086
-          - name: Hystrix
+          #- name: Hystrix
+         #  args:
+          #    name: fallbackcmd
+           #   fallbackUri: forward:/fallback
+          - name: CircuitBreaker
             args:
-              name: fallbackcmd
+              name: myCircuitBreaker
               fallbackUri: forward:/fallback
-          - StripPrefix=1
+        - id: service_tradecenter
+          uri: lb://xyhs-tradecenter
+          predicates:
+           - Path= /kfAd/**/**
+          filters:
+          - name: CircuitBreaker
+            args:
+              name: yourCircuitBreaker
+              fallbackUri: forward:/tradeFallback
+          - RewritePath=/fallback,
+         # - StripPrefix=1
 #        - id: hystrix-route
 #          uri: lb://xyhs-basecenter
 #          predicates:
