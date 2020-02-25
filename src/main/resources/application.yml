@@ -1,8 +1,12 @@
 server:
-  port: 8090
+  port: 8091
 spring:
   application:
     name: xyhs-gateway
+  security:
+    user:
+      password: 123456
+      name: user
   jackson:
       date-format: yyyy-MM-dd HH:mm:ss
       joda-date-time-format: yyyy-MM-dd HH:mm:ss
@@ -49,7 +53,6 @@ spring:
             args:
               name: yourCircuitBreaker
               fallbackUri: forward:/tradeFallback
-          - RewritePath=/fallback,
          # - StripPrefix=1
 #        - id: hystrix-route
 #          uri: lb://xyhs-basecenter
