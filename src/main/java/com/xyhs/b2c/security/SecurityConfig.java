@@ -1,4 +1,4 @@
-package com.xyhs.b2c.gateway;
+package com.xyhs.b2c.security;
 
 import com.xyhs.b2c.handler.AuthenticationFailedHandler;
 import com.xyhs.b2c.handler.AuthenticationSuccessHandler;
@@ -68,9 +68,9 @@ public class SecurityConfig {
 
         return http.build();
     }
-  /*  @Bean
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return  NoOpPasswordEncoder.getInstance(); //默认
-    }*/
+    }
 
 }
